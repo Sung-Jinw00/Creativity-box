@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"tests.h": "c",
+		"stdio.h": "c",
+		"ft_asprintf.h": "c",
+		"stdlib.h": "c"
+	}
+}
