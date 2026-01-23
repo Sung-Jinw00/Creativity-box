@@ -12,6 +12,18 @@
 
 #include "ft_sprintf.h"
 
+/**
+ * @brief Parses a single format specifier and prints the corresponding argument.
+ * 
+ * Checks the character at position `i` in the format string and calls
+ * the appropriate printing function for characters, strings, pointers,
+ * integers, unsigned integers, hexadecimal numbers, or the percent sign.
+ * 
+ * @param i Index of the format specifier in the format string.
+ * @param count Pointer to an integer storing the number of characters printed so far.
+ * @param v Pointer to a structure containing buffer, format string, and formatting options.
+ * @param args Variable argument list containing the values to format.
+ */
 void	parser(int i, int *count, t_struct *v, va_list args)
 {
 	if (v->str[i] == 'c')
@@ -30,6 +42,19 @@ void	parser(int i, int *count, t_struct *v, va_list args)
 		ft_print_percent(v->buffer, &v->i, '%', count);
 }
 
+/**
+ * @brief Parses non-standard flags, width, precision, and other formatting options.
+ * 
+ * Processes flags, width, precision, and bonus flags. After parsing,
+ * it calls the `parser` function to print the corresponding argument.
+ * 
+ * @param i Current index in the format string.
+ * @param count Pointer to the number of characters printed so far.
+ * @param v Pointer to the formatting structure.
+ * @param args Variable argument list for values corresponding to '*' width/precision specifiers.
+ * 
+ * @return int Updated index in the format string after parsing.
+ */
 int	parse_nd_flags(int i, int *count, t_struct *v, va_list args)
 {
 	while (!standard_conds(v, i))
@@ -53,6 +78,18 @@ int	parse_nd_flags(int i, int *count, t_struct *v, va_list args)
 	return (i);
 }
 
+/**
+ * @brief Processes the entire format string and prints all characters and formatted arguments.
+ * 
+ * Iterates through the format string. For each '%' character, it calls
+ * `parse_nd_flags` to handle the format specifier; otherwise, it directly copies the
+ * character to the buffer.
+ * 
+ * @param args Variable argument list containing values for format specifiers.
+ * @param v Pointer to the formatting structure containing the format string and buffer.
+ * 
+ * @return int Total number of characters written to the buffer.
+ */
 int	print_this_bs(va_list args, t_struct *v)
 {
 	int	i;
@@ -75,15 +112,18 @@ int	print_this_bs(va_list args, t_struct *v)
 }
 
 /**
- * @brief This function stores the formatted result of sprintf like the behavior
- * of printf in an already allocated string.
+ * @brief Stores the formatted result into a preallocated string like sprintf.
  * 
- * @param buffer The allocated string.
+ * Behaves similarly to `sprintf` from the C standard library. Stores the
+ * formatted output in the provided buffer.
  * 
- * @return The number of characters written.
+ * @param buffer Preallocated string where the formatted output will be stored.
+ * @param str Format string containing literal text and format specifiers.
+ * @param ... Additional arguments corresponding to the format specifiers.
  * 
- * @note The user is responsible for the potential overflow if the string is
- * too short for the formated result.
+ * @return int Number of characters written to the buffer (excluding the null terminator).
+ * 
+ * @note The user must ensure the buffer is large enough to hold the formatted result.
  */
 int	ft_sprintf(char *buffer, const char *str, ...)
 {

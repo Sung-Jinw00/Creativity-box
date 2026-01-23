@@ -3,15 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:18:33 by locagnio          #+#    #+#             */
-/*   Updated: 2025/01/31 17:54:26 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:33:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fprintf.h"
 
+/**
+ * @brief Keeps the prior flag when two conflicting flags exist.
+ * 
+ * This function ensures that in case of conflicting flags (e.g., '0' and '-'),
+ * the prior flag in the order of appearance is preserved, and the later conflicting
+ * flag is erased from the flags array.
+ * 
+ * @param erased The flag that might be removed.
+ * @param prior The flag that should take precedence if both exist.
+ * @param v The formatting structure containing the flags array.
+ * 
+ * @return t_struct Updated formatting structure with the conflicting flag removed if necessary.
+ */
 t_struct	keep_prior_flag(char erased, char prior, t_struct v)
 {
 	int	j;
@@ -39,6 +52,14 @@ t_struct	keep_prior_flag(char erased, char prior, t_struct v)
 	return (v);
 }
 
+/**
+ * @brief Checks whether a specific flag exists in a string.
+ * 
+ * @param s The string containing flags.
+ * @param c The flag character to search for.
+ * 
+ * @return int 1 if the flag is found, 0 otherwise.
+ */
 int	srch_flag(char *s, char c)
 {
 	int	i;
@@ -53,6 +74,14 @@ int	srch_flag(char *s, char c)
 	return (0);
 }
 
+/**
+ * @brief Erases a specific flag from the flags array in the formatting structure.
+ * 
+ * @param erased The flag character to remove.
+ * @param v The formatting structure containing the flags array.
+ * 
+ * @return t_struct Updated formatting structure with the flag removed.
+ */
 t_struct	erase_flag(char erased, t_struct v)
 {
 	int	j;
@@ -74,6 +103,16 @@ t_struct	erase_flag(char erased, t_struct v)
 	return (v);
 }
 
+/**
+ * @brief Determines if the character at index i of the format string is a "bonus" flag.
+ * 
+ * Recognized bonus flags: '-', '0', '.', '#', ' ', '+'.
+ * 
+ * @param i Index in the format string.
+ * @param v The formatting structure containing the format string.
+ * 
+ * @return char The flag character if found, or 0 if none of the bonus flags match.
+ */
 char	bonus_flag_finder(int i, t_struct v)
 {
 	if (v.str[i] == '-')
@@ -92,6 +131,16 @@ char	bonus_flag_finder(int i, t_struct v)
 		return (0);
 }
 
+/**
+ * @brief Converts a string to an integer.
+ * 
+ * Handles optional leading whitespace and '+'/'-' signs.
+ * Stops parsing at the first non-digit character.
+ * 
+ * @param nptr The input string representing the number.
+ * 
+ * @return int The converted integer value.
+ */
 int	ft_atoi(const char *nptr)
 {
 	int	i;

@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 20:52:22 by locagnio          #+#    #+#             */
-/*   Updated: 2025/01/31 17:54:28 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:34:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fprintf.h"
 
+/**
+ * @brief Writes a string to the specified file descriptor up to a limit of characters.
+ *
+ * @param s The string to write.
+ * @param count Pointer to the total character count; incremented by the number of characters written.
+ * @param limit Maximum number of characters to write.
+ * @param fd File descriptor where the string will be written.
+ */
 void	ft_putstr(char *s, int *count, int limit, int fd)
 {
 	int	i;
@@ -27,6 +35,14 @@ void	ft_putstr(char *s, int *count, int limit, int fd)
 	}
 }
 
+/**
+ * @brief Recursively prints an unsigned long number to the specified file descriptor.
+ *
+ * Handles precision flags: if the '.' flag is set and nb2 is zero, prints nothing for 0.
+ *
+ * @param n The unsigned long number to print.
+ * @param v Formatting structure containing flags, zeros, nb2, and fd.
+ */
 void	ft_putunbr(unsigned long n, t_struct v)
 {
 	if (n > 9)
@@ -38,6 +54,16 @@ void	ft_putunbr(unsigned long n, t_struct v)
 	}
 }
 
+/**
+ * @brief Prints a signed long number to the file descriptor with formatting.
+ *
+ * Supports sign flags ('+', ' '), leading zeros, and precision handling.
+ *
+ * @param n The number to print.
+ * @param v Formatting structure containing flags, zeros, nb2, and fd.
+ * @param base Base used for printing (typically 10).
+ * @param print Temporary variable for calculating digits.
+ */
 void	ft_putnbr(long n, t_struct v, long base, long print)
 {
 	if (n < 0)
@@ -65,6 +91,14 @@ void	ft_putnbr(long n, t_struct v, long base, long print)
 		write(v.fd, &print, 1);
 }
 
+/**
+ * @brief Prints a pointer in hexadecimal format with "0x" prefix.
+ *
+ * Supports flags '+' and ' ', and leading zeros for precision.
+ *
+ * @param nb The pointer value to print.
+ * @param v Formatting structure containing flags, zeros, nb2, and fd.
+ */
 void	ptr_print(size_t nb, t_struct v)
 {
 	char	*str;
@@ -92,6 +126,12 @@ void	ptr_print(size_t nb, t_struct v)
 	write(v.fd, &str[nb % 16], 1);
 }
 
+/**
+ * @brief Returns the length of a null-terminated string.
+ *
+ * @param s The string whose length is computed.
+ * @return size_t The length of the string; returns 0 if s is NULL.
+ */
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;

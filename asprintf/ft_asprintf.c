@@ -12,6 +12,18 @@
 
 #include "ft_asprintf.h"
 
+/**
+ * @brief Parses the format type and calls the corresponding print function.
+ * 
+ * Checks the character at index `i` in the format string and prints the
+ * corresponding argument based on its format specifier (char, string,
+ * pointer, integer, unsigned, hex, or percent).
+ * 
+ * @param i Index in the format string `v->str`.
+ * @param count Pointer to the counter of written characters.
+ * @param v Pointer to the structure containing the format string, buffer, and flags.
+ * @param args Variadic argument list.
+ */
 void	parser(int i, int *count, t_struct *v, va_list args)
 {
 	if (v->str[i] == 'c')
@@ -30,6 +42,20 @@ void	parser(int i, int *count, t_struct *v, va_list args)
 		ft_print_percent(&v->buffer, '%', count);
 }
 
+/**
+ * @brief Parses flags, width, and precision for a given format specifier.
+ * 
+ * Processes characters after a '%' to detect flags, field width, precision,
+ * and variable arguments. Adjusts the formatting structure accordingly and
+ * then calls the parser for the actual type.
+ * 
+ * @param i Current index in the format string `v->str`.
+ * @param count Pointer to the character count.
+ * @param v Pointer to the structure storing flags, width, precision, and buffer.
+ * @param args Variadic argument list.
+ * 
+ * @return The index in the format string after the current format specifier.
+ */
 int	parse_nd_flags(int i, int *count, t_struct *v, va_list args)
 {
 	while (!standard_conds(v, i))
@@ -53,6 +79,17 @@ int	parse_nd_flags(int i, int *count, t_struct *v, va_list args)
 	return (i);
 }
 
+/**
+ * @brief Iterates over the format string and prints characters or formats.
+ * 
+ * Goes through `v->str` and appends literal characters to the buffer.
+ * When a '%' is found, it calls parse_nd_flags to handle the format specifier.
+ * 
+ * @param args Variadic argument list.
+ * @param v Pointer to the formatting structure with buffer and flags.
+ * 
+ * @return Total number of characters written to the buffer.
+ */
 int	print_this_bs(va_list args, t_struct *v)
 {
 	int	i;
@@ -75,16 +112,17 @@ int	print_this_bs(va_list args, t_struct *v)
 }
 
 /**
- * @brief 
- * This function dynamically allocates a buffer and stores the formatted result
- * like the behavior of printf in it.
+ * @brief Main function similar to printf but allocates a dynamic buffer.
  * 
- * @param buffer A pointer to a string that will be allocated and filled.
+ * Formats the input string with the provided arguments and writes the result
+ * to a dynamically allocated buffer. The user is responsible for freeing
+ * the buffer after use.
  * 
- * @return The number of characters written.
+ * @param buffer Pointer to a pointer to char. The function allocates and fills this buffer.
+ * @param str Format string (like printf).
+ * @param ... Variadic arguments corresponding to the format specifiers.
  * 
- * @note The user is responsible for freeing the buffer when it is no longer
- * needed.
+ * @return Number of characters written into the buffer.
  */
 int	ft_asprintf(char **buffer, const char *str, ...)
 {

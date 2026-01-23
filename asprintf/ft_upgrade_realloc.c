@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_upgrade_realloc.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:32:39 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/30 22:43:26 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 01:50:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_asprintf.h"
 
+/**
+ * @brief Allocates zero-initialized memory like calloc.
+ * 
+ * @param nmemb Number of elements.
+ * @param size Size of each element.
+ * 
+ * @return Pointer to the allocated memory or NULL if allocation fails.
+ */
 void	*ft_calloc_(size_t nmemb, size_t size)
 {
 	void	*tab;
@@ -31,12 +39,17 @@ void	*ft_calloc_(size_t nmemb, size_t size)
 	return (tab);
 }
 
-/* changes the size of the memory block pointed to by "ptr" to "size" bytes. The
-	content is unchanged. If "ptr" is NULL, then the call is equivalent to
-	calloc(size). If "size" is equal to  zero, and "ptr" is not NULL, then the
-	call is equivalent to free(ptr). If the area pointed to was moved, a
-	free(ptr) is done.
-*/
+/**
+ * @brief Resizes a memory block, similar to realloc but with custom behavior.
+ * 
+ * If ptr is NULL, behaves like calloc. If size is 0, frees ptr. Copies the
+ * old content into the new memory if needed.
+ * 
+ * @param ptr Pointer to existing memory.
+ * @param size New size for the memory block.
+ * 
+ * @return Pointer to the resized memory block or NULL on failure.
+ */
 void	*ft_upgrade_realloc(void *ptr, size_t size)
 {
 	void	*new_ptr;

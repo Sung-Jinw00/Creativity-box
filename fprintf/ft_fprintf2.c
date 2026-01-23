@@ -1,17 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf2_fd.c                                    :+:      :+:    :+:   */
+/*   ft_fprintf2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 22:22:27 by locagnio          #+#    #+#             */
-/*   Updated: 2025/01/31 17:54:10 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:28:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fprintf.h"
 
+
+/**
+ * @brief Adds a flag character to the flags array if it is not already present.
+ * 
+ * Ensures that each flag is stored only once in the structure.
+ * 
+ * @param c Flag character to add ('-', '+', '0', ' ', '#', '.').
+ * @param v Formatting structure containing the flags array.
+ * 
+ * @return Updated formatting structure with the flag added.
+ */
 t_struct	flags(char c, t_struct v)
 {
 	int	i;
@@ -33,6 +44,17 @@ t_struct	flags(char c, t_struct v)
 	return (v);
 }
 
+/**
+ * @brief Filters and adjusts flags based on the current format specifier.
+ * 
+ * Removes incompatible flags (e.g., '0' for 'c'/'s', '+' for non-numeric types) and
+ * enforces precedence rules (e.g., '-' overrides '0', '+' overrides ' ').
+ * 
+ * @param i Current index in the format string.
+ * @param v Formatting structure containing flags and the format string.
+ * 
+ * @return Updated formatting structure after applying flag rules.
+ */
 t_struct	flag_filter(int i, t_struct v)
 {
 	int	j;
@@ -58,6 +80,18 @@ t_struct	flag_filter(int i, t_struct v)
 	return (v);
 }
 
+/**
+ * @brief Parses numeric width and precision after a format specifier.
+ * 
+ * Handles digits, '.', and '*' to set `nb1` (width) and `nb2` (precision) in the structure.
+ * Also updates flags according to bonus flags like '.' and '0'.
+ * 
+ * @param i Pointer to the current index in the format string; updated as characters are processed.
+ * @param v Formatting structure containing flags, width, and precision.
+ * @param args Variable argument list for values corresponding to '*' width/precision specifiers.
+ * 
+ * @return Updated formatting structure with parsed width, precision, and flags.
+ */
 t_struct	parse_nd_flags3(int *i, t_struct v, va_list args)
 {
 	if (v.str[*i] >= '1' && v.str[*i] <= '9')
@@ -87,6 +121,18 @@ t_struct	parse_nd_flags3(int *i, t_struct v, va_list args)
 	return (v);
 }
 
+/**
+ * @brief Parses numeric width and precision, including '*' handling.
+ * 
+ * Delegates to `parse_nd_flags3` for digit and '.' parsing. Handles special cases
+ * where width or precision is specified by '*'.
+ * 
+ * @param i Pointer to the current index in the format string; updated as characters are processed.
+ * @param v Formatting structure containing flags, width, and precision.
+ * @param args Variable argument list for values corresponding to '*' width/precision specifiers.
+ * 
+ * @return Updated formatting structure with parsed width, precision, and flags.
+ */
 t_struct	parse_nd_flags2(int *i, t_struct v, va_list args)
 {
 	if (v.str[*i] == '*')
@@ -110,6 +156,16 @@ t_struct	parse_nd_flags2(int *i, t_struct v, va_list args)
 	return (v);
 }
 
+/**
+ * @brief Checks whether the current character in the format string is a standard specifier.
+ * 
+ * Recognized specifiers are: 'c', 's', 'p', 'd', 'i', 'u', 'x', 'X', '%'.
+ * 
+ * @param v Formatting structure containing the format string.
+ * @param i Current index in the format string.
+ * 
+ * @return int Returns 1 if the character is a standard format specifier, 0 otherwise.
+ */
 int	standard_conds(t_struct v, int i)
 {
 	if (v.str[i] == 'c' || v.str[i] == 's' || v.str[i] == 'p' || v.str[i] == 'd'

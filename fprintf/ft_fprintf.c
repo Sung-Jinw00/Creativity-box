@@ -12,6 +12,17 @@
 
 #include "ft_fprintf.h"
 
+/**
+ * @brief Selects the appropriate print function based on the format specifier.
+ * 
+ * Supports 'c', 's', 'p', 'd', 'i', 'u', 'x', 'X', and '%'. Calls the
+ * corresponding print function with the next argument from the variable list.
+ * 
+ * @param i Current index in the format string.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ * @param v Formatting structure containing flags, width, precision, and file descriptor.
+ * @param args Variable argument list for values corresponding to format specifiers.
+ */
 void	parser(int i, int *count, t_struct v, va_list args)
 {
 	if (v.str[i] == 'c')
@@ -30,6 +41,19 @@ void	parser(int i, int *count, t_struct v, va_list args)
 		ft_print_percent('%', count, v.fd);
 }
 
+/**
+ * @brief Parses non-standard flags, width, precision, and bonus flags.
+ * 
+ * Processes flags, width, precision, and bonus flags. After parsing,
+ * it calls the `parser` function to print the corresponding argument.
+ * 
+ * @param i Current index in the format string.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ * @param v Formatting structure containing flags, width, precision, and file descriptor.
+ * @param args Variable argument list for values corresponding to '*' width/precision specifiers.
+ * 
+ * @return int Updated index in the format string after parsing.
+ */
 int	parse_nd_flags(int i, int *count, t_struct v, va_list args)
 {
 	while (!standard_conds(v, i))
@@ -53,6 +77,16 @@ int	parse_nd_flags(int i, int *count, t_struct v, va_list args)
 	return (i);
 }
 
+/**
+ * @brief Iterates through the format string and prints literal characters or formatted values.
+ * 
+ * Calls `parse_nd_flags` when a '%' is encountered to process the corresponding specifier.
+ * 
+ * @param args Variable argument list containing values for format specifiers.
+ * @param v Formatting structure containing the format string, flags, width, precision, and file descriptor.
+ * 
+ * @return int Total number of characters printed.
+ */
 int	print_this_bs(va_list args, t_struct v)
 {
 	int	i;
@@ -75,11 +109,16 @@ int	print_this_bs(va_list args, t_struct v)
 }
 
 /**
- * @brief Behaves like printf, but print in any specified file descriptor.
+ * @brief Behaves like printf but prints formatted output to a specified file descriptor.
  * 
- * @param fd File descriptor.
+ * Initializes the formatting structure, parses the format string, and prints each argument
+ * according to its format specifier. Supports standard flags, width, precision, and special characters.
  * 
- * @return The number of characters written.
+ * @param fd File descriptor to which the output will be written.
+ * @param str Null-terminated format string containing literal text and format specifiers.
+ * @param ... Variable arguments corresponding to the format specifiers.
+ * 
+ * @return int Total number of characters written to the file descriptor.
  */
 int	ft_fprintf(int fd, const char *str, ...)
 {

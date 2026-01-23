@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:08:53 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/29 16:23:15 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:26:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sprintf.h"
 
+/**
+ * @brief Recursively prints an unsigned integer in a given base to a buffer.
+ * 
+ * Used for hexadecimal printing with lowercase or uppercase digits.
+ * 
+ * @param buffer Output buffer where the number will be written.
+ * @param i Pointer to the current index in the buffer; updated by the function.
+ * @param nbr Unsigned integer to print.
+ * @param base String representing the digits of the numeric base (e.g., "0123456789abcdef").
+ * 
+ * @return char* Pointer to the buffer after printing.
+ */
 char	*ft_putnbr_base_aspf(char *buffer, int *i, unsigned int nbr, char *base)
 {
 	if (nbr >= 16)
@@ -20,6 +32,15 @@ char	*ft_putnbr_base_aspf(char *buffer, int *i, unsigned int nbr, char *base)
 	return (buffer);
 }
 
+/**
+ * @brief Prints an unsigned integer in hexadecimal format with optional "0x"/"0X" prefix.
+ * 
+ * Handles '#' flag for prefix, '0' padding using the `zeros` field, and uppercase/lowercase output.
+ * 
+ * @param nb Unsigned integer to print in hexadecimal.
+ * @param v Pointer to the formatting structure containing buffer, flags, and zeros.
+ * @param x Format specifier character ('x' for lowercase, 'X' for uppercase).
+ */
 void	hexa_print(unsigned int nb, t_struct *v, char x)
 {
 	char	*str;
@@ -43,6 +64,16 @@ void	hexa_print(unsigned int nb, t_struct *v, char x)
 	v->buffer = ft_putnbr_base_aspf(v->buffer, &v->i, nb, str);
 }
 
+
+/**
+ * @brief Counts the number of digits in a signed long integer.
+ * 
+ * Includes space for the sign if the number is negative.
+ * 
+ * @param n Signed long integer to count digits for.
+ * 
+ * @return int Number of digits including sign if negative.
+ */
 int	ft_digits(long n)
 {
 	int	count;
@@ -61,6 +92,17 @@ int	ft_digits(long n)
 	return (count);
 }
 
+/**
+ * @brief Compares two strings for equality.
+ * 
+ * Returns 0 if both strings are equal, a positive or negative value if they differ.
+ * Handles NULL pointers: returns 0 if both are NULL, 1 if only one is NULL.
+ * 
+ * @param s1 First string to compare.
+ * @param s2 Second string to compare.
+ * 
+ * @return int 0 if strings are equal, non-zero otherwise.
+ */
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;

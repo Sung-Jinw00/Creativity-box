@@ -19,6 +19,21 @@
 # include <limits.h>
 # include "libft_extras.h"
 
+/**
+ * @struct s_struct
+ * @brief Structure used to store formatting information for custom sprintf.
+ * 
+ * Holds the format string, output buffer, current buffer index, active flags,
+ * width, precision, and the number of zeros for padding.
+ * 
+ * @param str Format string containing literal text and format specifiers.
+ * @param buffer Preallocated buffer where the formatted output will be stored.
+ * @param i Current index in the buffer where the next character will be written.
+ * @param flags Array storing active flags ('-', '+', '0', ' ', '#', '.') with a maximum of 6 flags.
+ * @param nb1 Primary numeric value (usually width) parsed from the format string.
+ * @param nb2 Secondary numeric value (usually precision) parsed from the format string.
+ * @param zeros Number of zeros to be added for padding purposes.
+ */
 typedef struct s_struct
 {
 	const char	*str;

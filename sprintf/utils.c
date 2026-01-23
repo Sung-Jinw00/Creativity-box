@@ -3,15 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:18:33 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/29 16:02:27 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:25:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sprintf.h"
 
+/**
+ * @brief Removes the later occurrence of a flag when two conflicting flags exist.
+ * 
+ * Keeps the prior flag and erases the subsequent occurrence from the flags array.
+ * 
+ * @param erased Character representing the flag to potentially remove.
+ * @param prior Character representing the flag that has priority.
+ * @param v Pointer to the formatting structure containing the flags array.
+ * 
+ * @return Pointer to the updated formatting structure.
+ */
 t_struct	*keep_prior_flag(char erased, char prior, t_struct *v)
 {
 	int	j;
@@ -39,6 +50,14 @@ t_struct	*keep_prior_flag(char erased, char prior, t_struct *v)
 	return (v);
 }
 
+/**
+ * @brief Searches for a specific flag character in a flag string.
+ * 
+ * @param s String containing active flags.
+ * @param c Character representing the flag to search for.
+ * 
+ * @return int Returns 1 if the flag is found, 0 otherwise.
+ */
 int	srch_flag(char *s, char c)
 {
 	int	i;
@@ -53,6 +72,16 @@ int	srch_flag(char *s, char c)
 	return (0);
 }
 
+/**
+ * @brief Removes a specific flag character from the flags array.
+ * 
+ * Shifts all subsequent flags to fill the gap after removal.
+ * 
+ * @param erased Character representing the flag to remove.
+ * @param v Pointer to the formatting structure containing the flags array.
+ * 
+ * @return Pointer to the updated formatting structure.
+ */
 t_struct	*erase_flag(char erased, t_struct *v)
 {
 	int	j;
@@ -74,6 +103,16 @@ t_struct	*erase_flag(char erased, t_struct *v)
 	return (v);
 }
 
+/**
+ * @brief Determines which bonus flag is present at a specific index in the format string.
+ * 
+ * Checks for '-', '0', '.', '#', ' ', or '+' and returns the corresponding character.
+ * 
+ * @param i Index of the character to check in the format string.
+ * @param v Pointer to the formatting structure containing the format string.
+ * 
+ * @return char The detected flag character, or 0 if no recognized flag is found.
+ */
 char	bonus_flag_finder(int i, t_struct *v)
 {
 	if (v->str[i] == '-')
@@ -92,6 +131,15 @@ char	bonus_flag_finder(int i, t_struct *v)
 		return (0);
 }
 
+/**
+ * @brief Converts a string of digits into an integer.
+ * 
+ * Handles optional leading whitespace and '+' or '-' signs.
+ * 
+ * @param nptr Pointer to the null-terminated string to convert.
+ * 
+ * @return int The integer value represented by the string.
+ */
 int	ft_atoi(const char *nptr)
 {
 	int	i;

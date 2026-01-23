@@ -18,6 +18,20 @@
 # include <stdarg.h>
 # include <limits.h>
 
+/**
+ * @struct s_struct
+ * @brief Structure used to store formatting information for custom sprintf/printf.
+ * 
+ * Contains the format string, active flags, width, precision, zero padding, and output file descriptor.
+ * Used by various print functions to track the current state of formatting.
+ * 
+ * @param str Pointer to the format string containing literal text and format specifiers.
+ * @param flags Array of active formatting flags ('-', '+', '0', ' ', '#', '.') with a maximum of 6 flags.
+ * @param nb1 Primary numeric value (usually the field width parsed from the format string).
+ * @param nb2 Secondary numeric value (usually the precision parsed from the format string).
+ * @param zeros Number of zeros to add for padding based on precision or '0' flag.
+ * @param fd File descriptor for output (commonly used for write operations).
+ */
 typedef struct s_struct
 {
 	const char	*str;

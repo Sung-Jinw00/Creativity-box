@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   print_char_and_string.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:45:58 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/28 13:44:24 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 01:51:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_asprintf.h"
 
+/**
+ * @brief Prints a single character with optional field width and alignment.
+ * 
+ * @param c Character to print.
+ * @param v Pointer to formatting structure.
+ * @param count Pointer to the character count.
+ */
 void	ft_print_char(char c, t_struct *v, int *count)
 {
 	if (v->nb1 > 0)
@@ -31,6 +38,14 @@ void	ft_print_char(char c, t_struct *v, int *count)
 	}
 }
 
+/**
+ * @brief Helper for printing strings when field width is larger than string length.
+ * 
+ * @param v Pointer to formatting structure.
+ * @param print_chars Number of characters to print from the string.
+ * @param str String to print.
+ * @param count Pointer to the character count.
+ */
 void	print_str_if_field(t_struct *v, int print_chars, char *str, int *count)
 {
 	if (v->nb1 >= print_chars)
@@ -44,6 +59,15 @@ void	print_str_if_field(t_struct *v, int print_chars, char *str, int *count)
 		ft_putstr(str, count, print_chars, &v->buffer);
 }
 
+/**
+ * @brief Prints a string with optional precision, field width, and alignment.
+ * 
+ * Handles NULL strings, precision truncation, and left/right alignment.
+ * 
+ * @param str String to print.
+ * @param v Pointer to formatting structure.
+ * @param count Pointer to the character count.
+ */
 void	ft_print_str(char *str, t_struct *v, int *count)
 {
 	int	print_chars;
@@ -66,6 +90,13 @@ void	ft_print_str(char *str, t_struct *v, int *count)
 		ft_putstr(str, count, print_chars, &v->buffer);
 }
 
+/**
+ * @brief Prints a literal '%' character.
+ * 
+ * @param buffer Pointer to the buffer.
+ * @param percent The '%' character to print.
+ * @param count Pointer to the character count.
+ */
 void	ft_print_percent(char **buffer, char percent, int *count)
 {
 	*buffer = add_char_realloc(*buffer, percent);

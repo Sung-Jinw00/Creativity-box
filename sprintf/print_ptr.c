@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   print_ptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:48:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/29 16:18:36 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:23:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sprintf.h"
 
+/**
+ * @brief Prints a null pointer as "(nil)" with optional field width and alignment.
+ * 
+ * If the field width (`nb1`) is greater than 5, pads with spaces according to the '-' flag.
+ * Updates the character count in `*count`.
+ * 
+ * @param v Pointer to the formatting structure containing buffer, flags, and width.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ */
 void	ft_null_ptr(t_struct *v, int *count)
 {
 	char	*nil;
@@ -33,6 +42,17 @@ void	ft_null_ptr(t_struct *v, int *count)
 		ft_putstr(nil, count, 5, v);
 }
 
+/**
+ * @brief Calculates the length of a pointer in hexadecimal notation, including the "0x" prefix.
+ * 
+ * Considers precision (`nb2`) to add leading zeros and optional ' ' or '+' flags for extra length.
+ * Updates the `zeros` field in the formatting structure if needed.
+ * 
+ * @param ptr Pointer value to calculate the length for.
+ * @param v Pointer to the formatting structure containing flags, width, and precision.
+ * 
+ * @return int Total length of the formatted pointer including prefix, zeros, and extra flags.
+ */
 int	ft_len_ptr(size_t ptr, t_struct *v)
 {
 	int	len_ptr;
@@ -54,6 +74,15 @@ int	ft_len_ptr(size_t ptr, t_struct *v)
 	return (len_ptr);
 }
 
+/**
+ * @brief Prints a non-null pointer with field width and alignment when the '0' flag is not set.
+ * 
+ * Adjusts spacing based on the field width (`nb1`) and '-' flag. Calls `ptr_print` to output the pointer.
+ * 
+ * @param v Pointer to the formatting structure containing buffer, flags, width, and precision.
+ * @param len_ptr Length of the formatted pointer, including prefix and leading zeros.
+ * @param ptr Pointer value to print.
+ */
 void	print_ptr_if_no_0(t_struct *v, int len_ptr, size_t ptr)
 {
 	v->nb1 -= len_ptr;
@@ -66,6 +95,16 @@ void	print_ptr_if_no_0(t_struct *v, int len_ptr, size_t ptr)
 			v->buffer[v->i++] = ' ';
 }
 
+/**
+ * @brief Prints a pointer with all formatting applied, including null pointer handling.
+ * 
+ * Handles field width (`nb1`), precision (`nb2`), '0' flag, and '-' flag. Updates the total character
+ * count in `*count`.
+ * 
+ * @param ptr Pointer value to print.
+ * @param v Pointer to the formatting structure containing buffer, flags, width, and precision.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ */
 void	ft_print_ptr(size_t ptr, t_struct *v, int *count)
 {
 	int	len_ptr;

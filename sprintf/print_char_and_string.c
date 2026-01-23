@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   print_char_and_string.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:45:58 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/29 16:18:21 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:21:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sprintf.h"
 
+/**
+ * @brief Prints a single character with optional width and left/right alignment.
+ * 
+ * If a minimum field width (`nb1`) is specified, the character will be padded with spaces.
+ * Supports left-aligned printing using the '-' flag.
+ * 
+ * @param c Character to print.
+ * @param v Pointer to the formatting structure containing buffer, flags, and field width.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ */
 void	ft_print_char(char c, t_struct *v, int *count)
 {
 	if (v->nb1 > 0)
@@ -31,6 +41,17 @@ void	ft_print_char(char c, t_struct *v, int *count)
 	}
 }
 
+/**
+ * @brief Helper function to print a string with field width and alignment.
+ * 
+ * Adjusts spacing based on the field width (`nb1`) and prints the string either left- or right-aligned.
+ * Updates the count of characters printed.
+ * 
+ * @param v Pointer to the formatting structure containing buffer, flags, and field width.
+ * @param print_chars Number of characters of the string to print.
+ * @param str String to print.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ */
 void	print_str_if_field(t_struct *v, int print_chars, char *str, int *count)
 {
 	if (v->nb1 >= print_chars)
@@ -44,6 +65,17 @@ void	print_str_if_field(t_struct *v, int print_chars, char *str, int *count)
 		ft_putstr(str, count, print_chars, v);
 }
 
+/**
+ * @brief Prints a string with optional precision and field width.
+ * 
+ * Handles NULL strings by printing "(null)" unless precision limits it.
+ * Respects precision (`nb2`) to truncate the string, field width (`nb1`) for padding,
+ * and '-' flag for left alignment.
+ * 
+ * @param str String to print; if NULL, handled as "(null)".
+ * @param v Pointer to the formatting structure containing buffer, flags, width, and precision.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ */
 void	ft_print_str(char *str, t_struct *v, int *count)
 {
 	int	print_chars;
@@ -66,6 +98,16 @@ void	ft_print_str(char *str, t_struct *v, int *count)
 		ft_putstr(str, count, print_chars, v);
 }
 
+/**
+ * @brief Prints a percent symbol '%' to the buffer.
+ * 
+ * This function handles the literal '%' format specifier.
+ * 
+ * @param buffer Output buffer where the percent symbol will be written.
+ * @param i Pointer to the current index in the buffer; updated by the function.
+ * @param percent Character '%' to print.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ */
 void	ft_print_percent(char *buffer, int *i, char percent, int *count)
 {
 	buffer[(*i)++] = percent;

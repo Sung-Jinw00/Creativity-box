@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   print_ptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:48:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/28 13:44:50 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 01:52:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_asprintf.h"
 
+/**
+ * @brief Prints a null pointer representation "(nil)" with field width.
+ * 
+ * @param v Pointer to formatting structure.
+ * @param count Pointer to the total characters printed.
+ */
 void	ft_null_ptr(t_struct *v, int *count)
 {
 	char	*nil;
@@ -33,6 +39,14 @@ void	ft_null_ptr(t_struct *v, int *count)
 		ft_putstr(nil, count, 5, &v->buffer);
 }
 
+/**
+ * @brief Calculates the length of a pointer representation including "0x" and precision.
+ * 
+ * @param ptr Pointer value.
+ * @param v Pointer to formatting structure.
+ * 
+ * @return Length in characters.
+ */
 int	ft_len_ptr(size_t ptr, t_struct *v)
 {
 	int	len_ptr;
@@ -54,6 +68,13 @@ int	ft_len_ptr(size_t ptr, t_struct *v)
 	return (len_ptr);
 }
 
+/**
+ * @brief Handles printing of a pointer when '0' flag is not set.
+ * 
+ * @param v Pointer to formatting structure.
+ * @param len_ptr Length of the pointer representation.
+ * @param ptr Pointer value to print.
+ */
 void	print_ptr_if_no_0(t_struct *v, int len_ptr, size_t ptr)
 {
 	v->nb1 -= len_ptr;
@@ -66,6 +87,13 @@ void	print_ptr_if_no_0(t_struct *v, int len_ptr, size_t ptr)
 			v->buffer = add_char_realloc(v->buffer, ' ');
 }
 
+/**
+ * @brief Prints a pointer value with "0x", flags, width, and precision.
+ * 
+ * @param ptr Pointer value.
+ * @param v Pointer to formatting structure.
+ * @param count Pointer to the total characters printed.
+ */
 void	ft_print_ptr(size_t ptr, t_struct *v, int *count)
 {
 	int	len_ptr;

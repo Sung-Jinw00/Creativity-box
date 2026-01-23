@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 20:52:22 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/30 22:43:40 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 01:54:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_asprintf.h"
 
+/**
+ * @brief Writes a string to the buffer with a limit and updates the count.
+ * 
+ * @param s String to write.
+ * @param count Pointer to character count.
+ * @param limit Maximum characters to write.
+ * @param buffer Pointer to buffer.
+ */
 void	ft_putstr(char *s, int *count, int limit, char **buffer)
 {
 	int	i;
@@ -27,6 +35,14 @@ void	ft_putstr(char *s, int *count, int limit, char **buffer)
 	}
 }
 
+/**
+ * @brief Recursively writes an unsigned number into the buffer.
+ * 
+ * @param n Number to write.
+ * @param v Pointer to formatting structure.
+ * 
+ * @return Updated buffer pointer.
+ */
 char	*ft_putunbr_aspf(unsigned long n, t_struct *v)
 {
 	if (n > 9)
@@ -39,6 +55,14 @@ char	*ft_putunbr_aspf(unsigned long n, t_struct *v)
 	return (v->buffer);
 }
 
+/**
+ * @brief Writes a signed number with flags, width, precision into the buffer.
+ * 
+ * @param n Number to write.
+ * @param v Pointer to formatting structure.
+ * @param base Base for number conversion (typically 10).
+ * @param print Helper variable for digit printing.
+ */
 void	ft_putnbr(long n, t_struct *v, long base, long print)
 {
 	if (n < 0)
@@ -66,6 +90,12 @@ void	ft_putnbr(long n, t_struct *v, long base, long print)
 		v->buffer = add_char_realloc(v->buffer, print);
 }
 
+/**
+ * @brief Writes a pointer as hex (0x...) with precision and flags.
+ * 
+ * @param nb Pointer value.
+ * @param v Pointer to formatting structure.
+ */
 void	ptr_print(size_t nb, t_struct *v)
 {
 	char	*str;
@@ -93,6 +123,13 @@ void	ptr_print(size_t nb, t_struct *v)
 	v->buffer = add_char_realloc(v->buffer, str[nb_cpy % 16]);
 }
 
+/**
+ * @brief Returns the length of a null-terminated string.
+ * 
+ * @param s Input string.
+ * 
+ * @return Length of the string.
+ */
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;

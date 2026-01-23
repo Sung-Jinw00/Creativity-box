@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   print_unsigned.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:02:22 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/28 13:36:02 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 01:52:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_asprintf.h"
 
+/**
+ * @brief Calculates the length of an unsigned integer including precision and flags.
+ * 
+ * @param nb Unsigned integer.
+ * @param v Pointer to formatting structure.
+ * 
+ * @return Length in characters.
+ */
 int	ft_len_unb(long nb, t_struct *v)
 {
 	int	len_unb;
@@ -29,6 +37,13 @@ int	ft_len_unb(long nb, t_struct *v)
 	return (len_unb);
 }
 
+/**
+ * @brief Handles printing of unsigned integers when '0' flag is not set.
+ * 
+ * @param v Pointer to formatting structure.
+ * @param len_unb Length of the number representation.
+ * @param nb Unsigned integer to print.
+ */
 void	print_unb_if_no_0(t_struct *v, int len_unb, long nb)
 {
 	v->nb1 -= len_unb;
@@ -43,6 +58,13 @@ void	print_unb_if_no_0(t_struct *v, int len_unb, long nb)
 			v->buffer = add_char_realloc(v->buffer, ' ');
 }
 
+/**
+ * @brief Prints an unsigned integer with proper flags, width, and precision.
+ * 
+ * @param nb Unsigned integer to print.
+ * @param v Pointer to formatting structure.
+ * @param count Pointer to the total characters printed.
+ */
 void	ft_print_uns_int(long nb, t_struct *v, int *count)
 {
 	int	len_unb;

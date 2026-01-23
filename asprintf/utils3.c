@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:08:53 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/30 22:44:10 by marvin           ###   ########.fr       */
+/*   Updated: 2026/01/23 01:55:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_asprintf.h"
 
+/**
+ * @brief Converts a number to hexadecimal string and writes it to buffer.
+ * 
+ * @param buffer Buffer pointer.
+ * @param nbr Number to convert.
+ * @param base String of hex digits (lower or upper case).
+ * 
+ * @return Updated buffer pointer.
+ */
 char	*ft_putnbr_base_aspf(char *buffer, unsigned int nbr, char *base)
 {
 	if (nbr >= 16)
@@ -20,6 +29,13 @@ char	*ft_putnbr_base_aspf(char *buffer, unsigned int nbr, char *base)
 	return (buffer);
 }
 
+/**
+ * @brief Prints a hexadecimal number with flags, precision, and optional '0x'/'0X'.
+ * 
+ * @param nb Number to print.
+ * @param v Pointer to formatting structure.
+ * @param x Format specifier 'x' or 'X'.
+ */
 void	hexa_print(unsigned int nb, t_struct *v, char x)
 {
 	char	*str;
@@ -37,6 +53,13 @@ void	hexa_print(unsigned int nb, t_struct *v, char x)
 	v->buffer = ft_putnbr_base_aspf(v->buffer, nb, str);
 }
 
+/**
+ * @brief Returns the number of digits in a signed long number.
+ * 
+ * @param n Number to count digits.
+ * 
+ * @return Number of digits.
+ */
 int	ft_digits(long n)
 {
 	int	count;
@@ -55,6 +78,14 @@ int	ft_digits(long n)
 	return (count);
 }
 
+/**
+ * @brief Adds a character to the buffer, reallocating memory.
+ * 
+ * @param buffer Buffer pointer.
+ * @param c Character to add.
+ * 
+ * @return Updated buffer pointer.
+ */
 char	*add_char_realloc(char *buffer, char c)
 {
 	int	newlen;

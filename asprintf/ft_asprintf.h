@@ -19,6 +19,21 @@
 # include <limits.h>
 # include "libft_extras.h"
 
+/**
+ * @struct s_struct
+ * @brief Structure contenant les informations de formatage pour ft_fprintf.
+ *
+ * Cette structure est utilisée pour stocker les flags, les largeurs de champ,
+ * la précision, le nombre de zéros à afficher, et les chaînes à traiter.
+ *
+ * @param str Chaîne de format originale (ex: "%-10d")
+ * @param buffer Tampon où les caractères formatés sont stockés avant affichage
+ * @param flags Tableau contenant les flags présents pour le format
+ *              (ex: '-', '+', '0', '#', ' ', '.')
+ * @param nb1 Largeur minimale du champ (champ entier avant le contenu)
+ * @param nb2 Précision (nombre de chiffres ou de caractères à afficher)
+ * @param zeros Nombre de zéros à ajouter pour la précision ou les flags
+ */
 typedef struct s_struct
 {
 	const char	*str;

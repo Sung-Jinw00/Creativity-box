@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   print_signed.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:01:22 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/29 16:09:17 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:23:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_sprintf.h"
 
+/**
+ * @brief Calculates the total length of a signed integer for printing.
+ * 
+ * Considers the sign, number of digits, precision (`nb2`) for leading zeros,
+ * and flags (' ' or '+') that may add extra space. Updates the `zeros` field
+ * in the formatting structure if precision requires padding.
+ * 
+ * @param nb Signed integer to calculate the length for.
+ * @param v Pointer to the formatting structure containing flags, width, and precision.
+ * 
+ * @return int Total length of the formatted number including sign, zeros, and extra flag space.
+ */
 int	ft_len_nb(long nb, t_struct *v)
 {
 	int	len_nb;
@@ -41,6 +53,16 @@ int	ft_len_nb(long nb, t_struct *v)
 	return (len_nb);
 }
 
+/**
+ * @brief Prints a signed integer with field width and alignment when the '0' flag is not set.
+ * 
+ * Handles spacing based on the field width (`nb1`) and '-' flag for left/right alignment.
+ * Calls `ft_putnbr` to output the number itself.
+ * 
+ * @param v Pointer to the formatting structure containing buffer, flags, width, and precision.
+ * @param len_nb Length of the formatted number including sign and zeros.
+ * @param nb Signed integer value to print.
+ */
 void	print_nb_if_no_0(t_struct *v, int len_nb, long nb)
 {
 	v->nb1 -= len_nb;
@@ -53,6 +75,16 @@ void	print_nb_if_no_0(t_struct *v, int len_nb, long nb)
 			v->buffer[v->i++] = ' ';
 }
 
+/**
+ * @brief Prints a signed integer with all formatting applied.
+ * 
+ * Handles field width (`nb1`), precision (`nb2`), '0' flag, '-' flag, and sign/space flags.
+ * Updates the total character count in `*count`.
+ * 
+ * @param nb Signed integer value to print.
+ * @param v Pointer to the formatting structure containing buffer, flags, width, and precision.
+ * @param count Pointer to the number of characters printed so far; updated by the function.
+ */
 void	ft_print_int(long nb, t_struct *v, int *count)
 {
 	int	len_nb;

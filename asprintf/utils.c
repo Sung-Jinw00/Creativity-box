@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <locagnio@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:18:33 by locagnio          #+#    #+#             */
-/*   Updated: 2025/03/27 20:57:06 by locagnio         ###   ########.fr       */
+/*   Updated: 2026/01/23 01:53:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_asprintf.h"
 
+/**
+ * @brief Keeps the prior flag in case of conflicts and removes the overridden one.
+ * 
+ * @param erased Flag to remove.
+ * @param prior Flag that has priority.
+ * @param v Pointer to formatting structure.
+ * 
+ * @return Updated pointer to the structure.
+ */
 t_struct	*keep_prior_flag(char erased, char prior, t_struct *v)
 {
 	int	j;
@@ -39,6 +48,14 @@ t_struct	*keep_prior_flag(char erased, char prior, t_struct *v)
 	return (v);
 }
 
+/**
+ * @brief Searches for a flag in the flags array.
+ * 
+ * @param s Array of flags.
+ * @param c Flag character to search.
+ * 
+ * @return 1 if found, 0 otherwise.
+ */
 int	srch_flag(char *s, char c)
 {
 	int	i;
@@ -53,6 +70,14 @@ int	srch_flag(char *s, char c)
 	return (0);
 }
 
+/**
+ * @brief Erases a specific flag from the flags array.
+ * 
+ * @param erased Flag character to erase.
+ * @param v Pointer to formatting structure.
+ * 
+ * @return Updated pointer to the structure.
+ */
 t_struct	*erase_flag(char erased, t_struct *v)
 {
 	int	j;
@@ -74,6 +99,14 @@ t_struct	*erase_flag(char erased, t_struct *v)
 	return (v);
 }
 
+/**
+ * @brief Returns the bonus flag character at a given index in the format string.
+ * 
+ * @param i Index in the format string.
+ * @param v Pointer to formatting structure.
+ * 
+ * @return Flag character or 0 if none.
+ */
 char	bonus_flag_finder(int i, t_struct *v)
 {
 	if (v->str[i] == '-')
@@ -92,6 +125,14 @@ char	bonus_flag_finder(int i, t_struct *v)
 		return (0);
 }
 
+/**
+ * @brief Writes a string to the buffer with a limit and updates the count.
+ * 
+ * @param s String to write.
+ * @param count Pointer to character count.
+ * @param limit Maximum characters to write.
+ * @param buffer Pointer to buffer.
+ */
 int	ft_atoi(const char *nptr)
 {
 	int	i;
