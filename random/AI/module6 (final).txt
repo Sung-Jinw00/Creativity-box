@@ -1,0 +1,44 @@
+==============================
+FICHIER : projet_final_ask_whale.txt
+==============================
+
+PROGRAM NAME
+ask_whale
+
+FILES TO SUBMIT
+- backend Go et/ou Python
+- Dockerfile
+- docker-compose.yml
+- README.md
+
+ARGUMENTS
+- Question utilisateur en entrée
+
+EXTERNAL / ALLOWED FUNCTIONS
+- Bibliothèques IA
+- Bases vectorielles
+- Docker
+
+LIBFT AUTHORIZED
+No
+
+DESCRIPTION (MANDATORY PART)
+
+Vous devez implémenter un assistant IA pour développeurs capable de :
+- analyser une documentation technique
+- répondre à des questions complexes
+- utiliser un pipeline RAG
+- citer explicitement ses sources
+- refuser de répondre en cas d’incertitude
+
+Le projet doit être :
+- containerisé
+- utilisable via une CLI ou une API HTTP
+
+BONUS PART
+
+- fine-tuning léger du modèle
+- backend principal en Go
+- métriques avancées
+- techniques de réduction des hallucinations
+- expérience développeur avancée

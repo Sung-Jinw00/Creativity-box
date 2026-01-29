@@ -1,0 +1,41 @@
+==============================
+FICHIER : module_04_docker_devtooling.txt
+==============================
+
+PROGRAM NAME
+docker_ai_tool
+
+FILES TO SUBMIT
+- Dockerfile
+- docker-compose.yml
+- code source
+- README.md
+
+ARGUMENTS
+- Aucun
+
+EXTERNAL / ALLOWED FUNCTIONS
+- Docker
+- Docker Compose
+
+LIBFT AUTHORIZED
+No
+
+DESCRIPTION (MANDATORY PART)
+
+Ce module introduit Docker comme outil central du développement moderne.
+
+Vous devez :
+- containeriser une application IA existante
+- utiliser docker-compose
+- séparer au minimum deux services (application et dépendance)
+
+Le projet doit pouvoir être lancé avec la commande :
+docker-compose up
+
+BONUS PART
+
+- multi-stage builds
+- optimisation de la taille des images
+- healthchecks
+- logs structurés

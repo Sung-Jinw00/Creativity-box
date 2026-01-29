@@ -1,0 +1,46 @@
+==============================
+FICHIER : module_01_python_llm.txt
+==============================
+
+PROGRAM NAME
+python_llm_intro
+
+FILES TO SUBMIT
+- main.py
+- README.md
+- requirements.txt
+
+ARGUMENTS
+- Aucun argument obligatoire
+- Le prompt peut être défini dans le code ou via l’entrée standard
+
+EXTERNAL / ALLOWED FUNCTIONS
+- Bibliothèque standard Python
+- Une bibliothèque permettant d’interagir avec un LLM (API ou local)
+
+LIBFT AUTHORIZED
+No
+
+DESCRIPTION (MANDATORY PART)
+
+Ce module a pour objectif d’introduire les bases des modèles de langage (LLMs) et leur utilisation via Python.
+
+Vous devez implémenter un programme Python capable de :
+- envoyer un prompt textuel à un modèle de langage
+- recevoir et afficher la réponse générée
+
+Dans le fichier README.md, vous devez expliquer clairement :
+- ce qu’est un modèle de langage
+- ce qu’est un token
+- ce qu’est un prompt
+- ce qu’est le contexte
+- pourquoi une réponse peut varier pour une même question
+
+Le code doit être simple, lisible et correctement structuré.
+
+BONUS PART
+
+- gestion du streaming de la réponse
+- prompts dynamiques en fonction du contexte
+- gestion des erreurs (réseau, réponse vide, timeout)
+- comparaison de plusieurs prompts pour une même question

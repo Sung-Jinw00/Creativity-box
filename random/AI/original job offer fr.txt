@@ -1,0 +1,85 @@
+Docker, Inc
+
+Senior AI Engineer
+
+
+À propos de l’offre d’emploi
+Chez Docker, nous facilitons le développement d’applications afin que les développeurs puissent se concentrer sur l’essentiel. Notre équipe remote-first est répartie dans le monde entier, unie par une passion pour l’innovation et les excellentes expériences développeur. Avec plus de 20 millions d’utilisateurs mensuels et 20 milliards de téléchargements d’images, Docker est l’outil n°1 pour construire, partager et exécuter des applications — utilisé aussi bien par des startups que par des entreprises du Fortune 100. Nous grandissons rapidement et nous ne faisons que commencer. Venez nous rejoindre pour une aventure hors norme !
+
+Il s’agit d’un poste en full remote, ouvert aux candidats basés en Europe et dans l’est des États-Unis. Si vous êtes situé à Paris ou à proximité, nous disposons également d’un espace de bureau si vous préférez travailler sur site.
+
+Rejoignez l’équipe d’ingénierie IA de Docker en tant que Senior AI Engineer afin de contribuer à façonner l’avenir des outils pour développeurs grâce à l’intelligence artificielle. Nous développons « Ask Gordon », un assistant IA qui alimente Docker Desktop et la CLI, transformant la manière dont des millions de développeurs interagissent avec les technologies de conteneurisation. Notre plateforme IA aide les développeurs à diagnostiquer des problèmes de conteneurs, à optimiser les Dockerfiles et à naviguer dans l’écosystème Docker grâce à une assistance intelligente et contextualisée.
+
+Vous travaillerez aux côtés d’une équipe d’ingénieurs expérimentés pour faire passer notre produit IA déjà performant au niveau supérieur, en élargissant son usage et le déploiement de Gordon. Il s’agit d’une opportunité unique d’appliquer des techniques d’IA de pointe à des problématiques concrètes de développeurs, à très grande échelle.
+
+Responsabilitees
+
+Amélioration des capacités IA : Améliorer la capacité d’Ask Gordon à comprendre des questions techniques complexes et à fournir des réponses précises et exploitables sur Docker, la conteneurisation et les workflows de développement
+Amélioration des systèmes RAG : Améliorer notre pipeline de génération augmentée par récupération (Retrieval-Augmented Generation) afin de mieux comprendre la documentation Docker, les dépôts de code et les sources de connaissances techniques
+Évaluation et tests : Concevoir et implémenter des cadres d’évaluation robustes pour mesurer la performance, la précision et la satisfaction des utilisateurs
+Développement et fine-tuning des modèles : Entraîner, affiner et optimiser des modèles de langage spécifiquement pour le domaine technique et les cas d’usage de Docker
+Prototypage rapide : Itérer rapidement sur de nouvelles fonctionnalités et capacités IA, en passant efficacement du concept à la production
+Collaboration transverse : Travailler en étroite collaboration avec les chefs de produit, les designers et les autres ingénieurs afin d’intégrer les capacités IA de manière fluide dans l’expérience développeur Docker
+
+Qualifications
+
+Expertise IA / ML : Au moins 3 ans d’expérience pratique avec des modèles de machine learning, en particulier les modèles de langage de grande taille (LLMs)
+Systèmes RAG : Expérience pratique dans la construction et l’optimisation de systèmes de génération augmentée par récupération
+Entraînement et fine-tuning de modèles : Expérience avérée dans l’entraînement, le fine-tuning ou l’adaptation de modèles pour des domaines ou des cas d’usage spécifiques
+Cadres d’évaluation : Expérience dans la conception et l’implémentation de méthodologies et de métriques d’évaluation IA
+Compétences en programmation : Maîtrise de Go (langage principal chez Docker) et de Python
+Frameworks IA : Expérience avec LangChain, LangGraph ou des frameworks d’orchestration IA similaires
+Itération rapide : Capacité démontrée à prototyper rapidement et à itérer en fonction des retours utilisateurs
+Expérience avec les technologies de conteneurisation (Docker, Kubernetes) ou les outils pour développeurs (souhaitée)
+Connaissance des bases de données vectorielles et des technologies de recherche sémantique (souhaitée)
+Expérience avec la sécurité IA, la détection des hallucinations et les techniques de fiabilité (souhaitée)
+
+A quoi s'attendre ?
+
+First 30 Days
+
+Intégrer notre équipe dynamique d’ingénierie IA développant une assistance intelligente pour les développeurs
+Approfondir votre connaissance de l’architecture d’Ask Gordon, de la plateforme IA de Docker et de notre stack technique
+Contribuer à vos premières améliorations de modèles IA ou du système RAG avec l’aide de votre équipe
+Comprendre nos cadres d’évaluation et commencer à analyser les métriques de performance de l’IA
+
+First 90 Days
+
+Continuer à améliorer et optimiser nos modèles et systèmes IA
+Améliorer notre pipeline RAG et nos cadres d’évaluation
+Approfondir votre connaissance de l’écosystème Docker et des workflows développeur
+Aider à l’intégration des nouveaux membres de l’équipe
+Interagir régulièrement avec les parties prenantes internes et analyser les retours utilisateurs
+
+One-Year Outlook
+
+Piloter des améliorations significatives des capacités IA ayant un impact direct sur des millions d’utilisateurs Docker
+Continuer à contribuer à la croissance de l’équipe et au développement de processus de développement IA plus efficaces
+Adopter un suivi et des rapports basés sur les données afin de mesurer l’augmentation de la productivité des développeurs grâce aux fonctionnalités IA
+Contribuer au fine-tuning des modèles et à l’optimisation des performances sur l’ensemble de la plateforme IA
+Développer vos compétences au-delà du simple modèle IA vers l’architecture et le déploiement de systèmes IA de niveau entreprise
+Piloter des initiatives visant à étendre les capacités d’Ask Gordon aux cas d’usage entreprise
+En collaboration avec votre manager, vous disposerez d’un plan de développement de carrière qui définira votre trajectoire au-delà de votre première année
+
+Nous utilisons Covey dans le cadre de notre processus de recrutement et/ou de promotion pour les postes à New York, et certaines fonctionnalités peuvent être qualifiées d’AEDT. Dans le cadre du processus d’évaluation, nous fournissons à Covey les exigences du poste ainsi que les candidatures soumises par les candidats. Nous avons commencé à utiliser Covey Scout pour les candidatures entrantes le 13 avril 2024.
+
+Veuillez consulter le rapport d’audit indépendant couvrant notre utilisation de Covey ici.
+
+Perks
+
+Liberté et flexibilité : adaptez votre travail à votre vie personnelle
+Journées « Whaleness » trimestrielles désignées, ainsi qu’une pause Whaleness de fin d’année
+Installation du bureau à domicile : nous voulons que vous soyez à l’aise pendant que vous travaillez
+16 semaines de congé parental rémunéré
+Allocation technologique équivalente à 100 $ nets par mois
+Politique de congés encourageant à prendre du temps pour faire ce que vous aimez
+Budget de formation pour conférences, cours et formations
+Participation au capital : nous sommes une start-up en croissance et souhaitons que tous les employés partagent le succès de l’entreprise
+Goodies Docker
+Les avantages médicaux, la retraite et les jours fériés varient selon le pays
+
+Docker valorise la diversité et l’égalité des chances. Nous nous engageons à construire une équipe représentant une variété de parcours, de perspectives et de compétences. Plus nous sommes inclusifs, meilleure est notre entreprise.
+
+En raison du caractère distant de ce poste, nous ne sommes pas en mesure de fournir un sponsoring de visa.
+
+Fourchette de rémunération : 89 000 € – 155 700 €

@@ -1,0 +1,44 @@
+==============================
+FICHIER : module_03_evaluation_hallucinations.txt
+==============================
+
+PROGRAM NAME
+llm_evaluation
+
+FILES TO SUBMIT
+- evaluate.py
+- dataset.json
+- README.md
+
+ARGUMENTS
+- Aucun
+
+EXTERNAL / ALLOWED FUNCTIONS
+- Bibliothèque standard Python
+- Librairie LLM utilisée dans les modules précédents
+
+LIBFT AUTHORIZED
+No
+
+DESCRIPTION (MANDATORY PART)
+
+Ce module vise à introduire la notion d’évaluation des systèmes IA.
+
+Vous devez :
+- créer un jeu de données contenant des questions et des réponses attendues
+- interroger votre pipeline RAG
+- comparer les réponses générées aux réponses attendues
+- produire des métriques simples telles que :
+  - exactitude
+  - pertinence
+
+Dans le README.md, vous devez expliquer :
+- pourquoi l’évaluation est indispensable pour les systèmes IA
+- les limites de vos métriques
+
+BONUS PART
+
+- détection automatique d’hallucinations
+- score de confiance associé à chaque réponse
+- refus de réponse si le score est trop faible
+- comparaison de deux versions différentes du pipeline

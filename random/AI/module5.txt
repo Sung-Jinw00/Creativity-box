@@ -1,0 +1,38 @@
+==============================
+FICHIER : module_05_go_backend.txt
+==============================
+
+PROGRAM NAME
+go_ai_backend
+
+FILES TO SUBMIT
+- main.go
+- README.md
+- go.mod
+
+ARGUMENTS
+- Aucun
+
+EXTERNAL / ALLOWED FUNCTIONS
+- Bibliothèque standard Go
+
+LIBFT AUTHORIZED
+No
+
+DESCRIPTION (MANDATORY PART)
+
+Ce module a pour objectif d’introduire le langage Go dans un contexte backend IA.
+
+Vous devez :
+- implémenter une API HTTP en Go
+- appeler un service IA (local ou distant)
+- retourner la réponse au client
+
+Le code doit être clair, structuré et gérer les erreurs proprement.
+
+BONUS PART
+
+- gestion de la concurrence
+- timeouts
+- logs et métriques
+- cache simple

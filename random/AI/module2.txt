@@ -1,0 +1,45 @@
+==============================
+FICHIER : module_02_rag_vectordb.txt
+==============================
+
+PROGRAM NAME
+rag_vector_db
+
+FILES TO SUBMIT
+- ingest.py
+- query.py
+- README.md
+- requirements.txt
+
+ARGUMENTS
+- Chemin vers un dossier contenant des fichiers de documentation
+
+EXTERNAL / ALLOWED FUNCTIONS
+- Bibliothèque standard Python
+- Librairie d’embeddings
+- Base de données vectorielle (FAISS, Chroma, Qdrant ou équivalent)
+
+LIBFT AUTHORIZED
+No
+
+DESCRIPTION (MANDATORY PART)
+
+Ce module a pour but d’implémenter un pipeline RAG (Retrieval-Augmented Generation) simple.
+
+Vous devez :
+- ingérer une documentation textuelle
+- découper les documents en morceaux (chunks)
+- générer des embeddings pour chaque chunk
+- stocker ces embeddings dans une base vectorielle
+- répondre à une question utilisateur en utilisant les documents récupérés
+
+La réponse générée doit :
+- être basée uniquement sur les documents récupérés
+- afficher les sources utilisées
+
+BONUS PART
+
+- stratégie de chunking avancée
+- filtrage par score de similarité
+- reranking des documents
+- prise en charge de plusieurs types de documents

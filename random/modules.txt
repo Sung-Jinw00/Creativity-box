@@ -1,0 +1,24 @@
+Major: frame work for both (Rei)
+minor: front framework (Popi)
+minor: back framework (Rei)
+
+Minor: ORM (Thomas)
+
+Minor: additional browser (Thomas)
+
+Major: standard user management (Popi)
+Minor: game stats (Rei)
+Minor: 2FA (Esteban)
+
+Major: AI opponent (Louis)
+
+Major: WAF(on going) (Esteban)
+
+Major: implement a game (Rei)
+Major: 3D (on going) (Louis)
+
+Major: ELK (on going) (Thomas)
+Major: Monitoring (Thomas)
+Major: microservices (Thomas)
+
+Minor: jwt(module of choice) (Rei)
