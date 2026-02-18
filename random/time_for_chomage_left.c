@@ -48,6 +48,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
+#include <stdbool.h>
 
 size_t contract_nb;
 
@@ -105,49 +106,98 @@ void print_hours_worked(char *colour, double how, double nb)
 	}
 }
 
-void	blank_print(int start_day, char **days, int i, int cur_days, double *how, double *limit_h)
-{
-	if (!start_day)
-		return ;
-	printf(CYAN"──────────────────────────────────────────────────\n");
-	printf("|");
-	for (int j = 0; j < 7; j++)
-		printf(" "BOLD"%s"RESET CYAN" |", days[j]);
-	printf("\n──────────────────────────────────────────────────\n");
-	printf("|      |      |      |      |      |      |      |\n");
-	printf("|");
-	for (int j = 0; j < 7; j++)
-	{
-		if (j >= start_day)
-			printf("      |");
-		else if (i + j < cur_days)
-			print_hours_worked(GREEN, how[i + j], 0);
-		else
-			print_hours_worked(RED, how[i + j], 0);
-		*limit_h -= how[i + j];
-		if (get_decimal(*limit_h) >= 60)
-			*limit_h -= 0.40;
-	}
-	printf("\n|      |      |      |      |      |      |      |\n");
-	i += 7;
-	printf("──────────────────────────────────────────────────\n");
-}
-
+/**
+ * @brief
+ * Write a formated date as follow :
+ * dd/mm/yy
+ * 
+ * @param date_str	The string that will receive the formated date
+ * @param size		The size of `date_str`
+ * @param cur_date	The current date to format
+ */
 void	formated_date(char *date_str, size_t size, time_t cur_date)
 {
 	struct tm tm_day = *localtime(&cur_date);
 	strftime(date_str, size, "%d/%m/%y", &tm_day);
 }
 
-void	how_much_time_left(double *how, int start_day, int limit_d, double limit_h, time_t cur_dates[contract_nb])
+/**
+ * @brief
+ * print blank days if the starting day is not monday.
+ * 
+ * @param start_day			The starting day
+ * @param days				The string tab of days
+ * @param i					The last week
+ * @param how				The hours of work array
+ * @param limit_h			The limit of hours to reach
+ * @param date_str			The string that will receive the date format
+ * @param contract_dates	The contract starting dates
+ * @param contract_nb		The global variable that represents the number of contracts
+ * @param contract			The current contract
+ */
+void	blank_print(int start_day, char *days[8], int i, double *how, double *limit_h, char *date_str, time_t contract_dates[contract_nb], size_t contract, int cur_j)
 {
-	if (start_day < 0)
-	{
-		printf(RED"Error : Invalid day.\n"RESET);
+	if (!start_day)//monday start
 		return ;
+	printf(CYAN"─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n|");
+	for (int j = 0; j < 7; j++)
+	{
+		formated_date(date_str, sizeof(date_str), contract_dates[contract]);//transform the current date to a readable date
+		printf(" "BOLD"%s %s"RESET CYAN" |", days[j], date_str);//day. day_nb/month_nb/year_nb
+		contract_dates[contract] += T_DAY;
 	}
+	printf(" "BOLD"%s"RESET CYAN" |", days[7]);//display "Total"
+	printf("\n─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n");
+	printf("|               |               |               |               |               |               |               |       |\n|");
+	double total_h_week = 0;
+	for (int j = 0; j < 7; j++)
+	{
+		if (get_decimal(how[i + j]) >= 60)//avoid overlap of base 60
+			how[i + j] -= 0.40;
+		if (j >= start_day)
+			printf("               |");
+		else if (cur_j == -1 || j < cur_j)//basically writing in green if i'm not above today's date
+		{
+			print_hours_worked(GREEN, how[i + j], 0);
+			*limit_h -= how[i + j];//remove hours left as long as today's day is not overlaped
+			if (get_decimal(*limit_h) >= 60)//avoid overlap of base 60
+				*limit_h -= 0.40;
+		}
+		else//else red
+			print_hours_worked(RED, how[i + j], 0);
+		total_h_week += how[i + j];//add hours to the total of the week
+		if (get_decimal(total_h_week) >= 60)//avoid overlap of base 60
+			total_h_week += 0.40;
+	}
+	print_hours_worked(NULL, 0, total_h_week);//print total hours worked this week
+	printf("\n|               |               |               |               |               |               |               |       |\n");
+	i += 7;
+	printf("─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n");
+}
+
+/**
+ * @brief
+ * Displays the working hours sheddule of different contracts and the total hours worked per week.
+ * 
+ * @param how The hours of work array
+ * @param start_day The day the contract started
+ * @param limit_d The days to reach for chomage
+ * @param limit_h The hours to reach for chomage
+ * @param contract_dates The contract starting dates
+ * @param contract_nb The global variable that represents the number of contracts
+ */
+void	how_much_time_left(double *how, int start_day, int limit_d, double limit_h, time_t contract_dates[contract_nb])
+{
+	bool conds[3] = {!how, start_day < 0, contract_nb <= 0};
+	char *msgs[3] = {"Error : NULL hours of work\n", "Error : Invalid starting day.\n", "No contracts to display.\n"};
+	for (int i = 0; i < 3; i++)//invalid arguments check
+		if (conds[i])
+			return (void)printf(RED"%s"RESET, msgs[i]);
+
 	size_t	contract = 0;
+	bool	first_week = true;
 	int 	rest_days = 0,
+			cur_j = -1,
 			cur_days = limit_d + start_day,
 			i = start_day;
 	char	date_str[9] = {0},
@@ -160,6 +210,7 @@ void	how_much_time_left(double *how, int start_day, int limit_d, double limit_h,
 			if (contract < contract_nb - 1)//goes to the next contract
 			{
 				contract++;
+				first_week = true;
 				i += 7;
 				printf(CYAN"─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n");
 				printf("|                                                        .....                                                          |\n");
@@ -168,59 +219,56 @@ void	how_much_time_left(double *how, int start_day, int limit_d, double limit_h,
 			break ;//end of the contacts
 		}
 		time_t now = time(NULL);//get the current day
-		for (int j = 0; j < 7 && i + j < cur_days; j++)
+		printf(CYAN"─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n|");
+		for (int j = 0; j < 7; j++)//display the days of the week
 		{
 			if (!how[i + j])//if it's a day off
 			{
 				rest_days++;
 				cur_days++;
 			}
-			else if (cur_dates[contract] + T_DAY * j <= now)//if the date is not above the today date
+			else if (contract_dates[contract] + T_DAY * j <= now)//if the date is not above the today date
 				limit_d--;
-		}
-		printf(CYAN"─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n|");
-		int cur_j = -1;
-		for (int j = 0; j < 7; j++)
-		{
-			formated_date(date_str, sizeof(date_str), cur_dates[contract]);//transform the current date to a readable date
-			printf(" "BOLD"%s %s"RESET CYAN" |", days[j], date_str);//day. day_nb/month_nb
-			if (cur_j == -1 && cur_dates[contract] > now)
+			formated_date(date_str, sizeof(date_str), contract_dates[contract]);//transform the current date to a readable date
+			printf(" "BOLD"%s %s"RESET CYAN" |", days[j], date_str);//day. day_nb/month_nb/year_nb
+			if (cur_j == -1 && contract_dates[contract] > now)//search for the day where i go above today's day
         		cur_j = j;
-			cur_dates[contract] += T_DAY;
+			contract_dates[contract] += T_DAY;
 		}
-		printf(" "BOLD"%s"RESET CYAN" |", days[7]);
+		printf(" "BOLD"%s"RESET CYAN" |", days[7]);//display "Total"
 		printf("\n─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n");
 		printf("|               |               |               |               |               |               |               |       |\n|");
 		double total_h_week = 0;
 		for (int j = 0; j < 7; j++)
 		{
-			if (i < 7 && j < start_day)
+			if (first_week && j < start_day)//print empty days if starting day is not monday
 			{
 				while (j++ < start_day)
-					printf("            |");
+					printf("               |");
 				j--;
 			}
-			if (get_decimal(how[i + j]) >= 60)
+			if (get_decimal(how[i + j]) >= 60)//avoid overlap of base 60
 				how[i + j] -= 0.40;
-			if (cur_j == -1 || j < cur_j)
+			if (cur_j == -1 || j < cur_j)//basically writing in green if i'm not above today's date
 			{
 				print_hours_worked(GREEN, how[i + j], 0);
-				limit_h -= how[i + j];
-				if (get_decimal(limit_h) >= 60)
+				limit_h -= how[i + j];//remove hours left as long as today's day is not overlaped
+				if (get_decimal(limit_h) >= 60)//avoid overlap of base 60
 					limit_h -= 0.40;
 			}
-			else
+			else//else red
 				print_hours_worked(RED, how[i + j], 0);
-			total_h_week += how[i + j];
-			if (get_decimal(total_h_week) >= 60)
+			total_h_week += how[i + j];//add hours to the total of the week
+			if (get_decimal(total_h_week) >= 60)//avoid overlap of base 60
 				total_h_week += 0.40;
 		}
-		print_hours_worked(NULL, 0, total_h_week);
+		print_hours_worked(NULL, 0, total_h_week);//print total hours worked this week
 		printf("\n|               |               |               |               |               |               |               |       |\n");
 		i += 7;
+		first_week = false;//set first week to false after going through one lap/week
 	}
 	printf("─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n");
-	blank_print(start_day, days, i, cur_days, how, &limit_h);
+	blank_print(start_day, days, i, how, &limit_h, date_str, contract_dates, contract, cur_j);
 	time_left(limit_d, limit_h);
 }
 
@@ -321,6 +369,6 @@ int	main(void)
 	};
 
 	time_t contracts[] = {start_date_lidl, start_date_KFC};
-	how_much_time_left(hours_of_work, day("lundi"), limit_days, limit_hours, contracts);
+	how_much_time_left(hours_of_work, day("mardi"), limit_days, limit_hours, contracts);
 	return (0);
 }
