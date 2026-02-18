@@ -49,41 +49,43 @@
 #include <math.h>
 #include <time.h>
 
+size_t contract_nb;
+
 int	get_decimal(double time)
 {
 	int decimal = (int)((time - (int)time) * 100);
-	if (decimal % 10 == 9)
+	if (decimal % 10 == 9 || decimal == 44)
 		decimal++;
 	return (decimal);
 }
 
 void	time_left(int limit_d, double limit_h)
 {
-	if (limit_d > 65)
-		limit_d = 65;
-	if (limit_d <= 0 && limit_h <= 0)
-		printf(BOLD UNDERLINE"\nJours restants pour le chomage :"RESET GREEN" 0d !\n"CYAN BOLD UNDERLINE"Heures restantes pour le chomage :"RESET GREEN" 0h !\n"RESET);
-	else if (limit_d <= 0)
-		printf(BOLD UNDERLINE"\nJours restants pour le chomage :"RESET GREEN" 0d !\n"CYAN BOLD UNDERLINE"Heures restantes pour le chomage :"RESET" %dh%02d\n"RESET, (int)limit_h, get_decimal(limit_h));
-	else if (limit_h <= 0)
-		printf(BOLD UNDERLINE"\nJours restants pour le chomage :"RESET" %dd\n"CYAN BOLD UNDERLINE"Heures restantes pour le chomage :"RESET GREEN" 0h !\n"RESET, limit_d);
-	else
-		printf(BOLD UNDERLINE"\nJours restants pour le chomage :"RESET" %dd\n"CYAN BOLD UNDERLINE"Heures restantes pour le chomage :"RESET" %dh%02d\n"RESET, limit_d, (int)limit_h, get_decimal(limit_h));
+	char msgd[50] = GREEN " 0d !", msgh[50] = GREEN " 0d !";
+
+	if (limit_d > 0)
+		snprintf(msgd, sizeof(msgd), " %dd", limit_d);
+	if (limit_h > 0)
+		snprintf(msgh, sizeof(msgh), " %dh%02d", (int)limit_h, get_decimal(limit_h));
+	printf(BOLD UNDERLINE"\nJours restants pour le chomage :"RESET "%s\n"CYAN BOLD UNDERLINE"Heures restantes pour le chomage :"RESET "%s\n"RESET, msgd, msgh);
 }
 
 
-void print_hours_worked(char *colour, double *how, int i, int j, double nb)
+void print_hours_worked(char *colour, double how, double nb)
 {
-	if (how)
+	int decimal;
+
+	if (colour)
 	{
 		printf(RESET"%s", colour);
-		if (!how[i + j])
-			printf("     /     ");
-		else if (!get_decimal(how[i + j]))
-			printf("     %dh    ", (int)how[i + j]);
+		decimal = get_decimal(how);
+		if (!how)
+			printf("       /      ");
+		else if (!decimal || decimal == 100)
+			printf("       %dh     ", (int)(how + 0.01));
 		else
-			printf("    %dh%02d   ", (int)how[i + j], get_decimal(how[i + j]));
-		if ((int)how[i + j] >= 10)
+			printf("      %dh%02d    ", (int)how, decimal);
+		if ((int)how >= 10)
 			printf(CYAN"|");
 		else
 			printf(CYAN" |");
@@ -91,10 +93,11 @@ void print_hours_worked(char *colour, double *how, int i, int j, double nb)
 	else
 	{
 		printf(GREEN);
-		if (!get_decimal(nb))
-			printf("  %dh  ", (int)nb);
+		decimal = get_decimal(nb);
+		if (!decimal || decimal == 100)
+			printf("  %dh  ", (int)(nb + 0.01));
 		else
-			printf(" %dh%02d ", (int)nb, get_decimal(nb));
+			printf(" %dh%02d ", (int)nb, decimal);
 		if (nb >= 10)
 			printf(CYAN"|");
 		else
@@ -118,9 +121,9 @@ void	blank_print(int start_day, char **days, int i, int cur_days, double *how, d
 		if (j >= start_day)
 			printf("      |");
 		else if (i + j < cur_days)
-			print_hours_worked(GREEN, how, i, j, 0);
+			print_hours_worked(GREEN, how[i + j], 0);
 		else
-			print_hours_worked(RED, how, i, j, 0);
+			print_hours_worked(RED, how[i + j], 0);
 		*limit_h -= how[i + j];
 		if (get_decimal(*limit_h) >= 60)
 			*limit_h -= 0.40;
@@ -130,106 +133,98 @@ void	blank_print(int start_day, char **days, int i, int cur_days, double *how, d
 	printf("──────────────────────────────────────────────────\n");
 }
 
-void	formated_date(char date_str[6], time_t cur_date)
+void	formated_date(char *date_str, size_t size, time_t cur_date)
 {
 	struct tm tm_day = *localtime(&cur_date);
-	strftime(date_str, 6, "%d/%m", &tm_day);
+	strftime(date_str, size, "%d/%m/%y", &tm_day);
 }
 
-void	how_much_time_left(double *how, int start_day, int cur_days, int limit_d, double limit_h, time_t cur_date)
+void	how_much_time_left(double *how, int start_day, int limit_d, double limit_h, time_t cur_dates[contract_nb])
 {
-	int rest_days = 0;
-
 	if (start_day < 0)
 	{
 		printf(RED"Error : Invalid day.\n"RESET);
 		return ;
 	}
-	char date_str[6] = {0};
-	int i = 0;
-	char *days[8] = {"Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim.", "Total"};
+	size_t	contract = 0;
+	int 	rest_days = 0,
+			cur_days = limit_d + start_day,
+			i = start_day;
+	char	date_str[9] = {0},
+			*days[8] = {"Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim.", "Total"};
 
-	cur_days += start_day;
 	while (i < cur_days)
 	{
-		if (!how[i] && !how[i + 1] && !how[i + 2])
-			break ;
+		if (!how[i] && !how[i + 1] && !how[i + 2])//if there's 3 days off, it's the end of a contract
+		{
+			if (contract < contract_nb - 1)//goes to the next contract
+			{
+				contract++;
+				i += 7;
+				printf(CYAN"─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n");
+				printf("|                                                        .....                                                          |\n");
+				continue;
+			}
+			break ;//end of the contacts
+		}
+		time_t now = time(NULL);//get the current day
 		for (int j = 0; j < 7 && i + j < cur_days; j++)
 		{
-			if (!how[i + j])
+			if (!how[i + j])//if it's a day off
+			{
 				rest_days++;
+				cur_days++;
+			}
+			else if (cur_dates[contract] + T_DAY * j <= now)//if the date is not above the today date
+				limit_d--;
 		}
-		printf(CYAN"────────────────────────────────────────────────────────────────────────────────────────────────────\n");
-		printf("|");
+		printf(CYAN"─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n|");
+		int cur_j = -1;
 		for (int j = 0; j < 7; j++)
 		{
-			formated_date(date_str, cur_date);
-			printf(" "BOLD"%s %s"RESET CYAN" |", days[j], date_str);
-			cur_date += T_DAY;
+			formated_date(date_str, sizeof(date_str), cur_dates[contract]);//transform the current date to a readable date
+			printf(" "BOLD"%s %s"RESET CYAN" |", days[j], date_str);//day. day_nb/month_nb
+			if (cur_j == -1 && cur_dates[contract] > now)
+        		cur_j = j;
+			cur_dates[contract] += T_DAY;
 		}
 		printf(" "BOLD"%s"RESET CYAN" |", days[7]);
-		printf("\n────────────────────────────────────────────────────────────────────────────────────────────────────\n");
-		printf("|            |            |            |            |            |            |            |       |\n");
-		printf("|");
+		printf("\n─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n");
+		printf("|               |               |               |               |               |               |               |       |\n|");
 		double total_h_week = 0;
 		for (int j = 0; j < 7; j++)
 		{
 			if (i < 7 && j < start_day)
 			{
 				while (j++ < start_day)
-					printf("      |");
+					printf("            |");
 				j--;
 			}
 			if (get_decimal(how[i + j]) >= 60)
 				how[i + j] -= 0.40;
-			if (i + j < cur_days)
-				print_hours_worked(GREEN, how, i, j, 0);
+			if (cur_j == -1 || j < cur_j)
+			{
+				print_hours_worked(GREEN, how[i + j], 0);
+				limit_h -= how[i + j];
+				if (get_decimal(limit_h) >= 60)
+					limit_h -= 0.40;
+			}
 			else
-				print_hours_worked(RED, how, i, j, 0);
-			limit_h -= how[i + j];
-			if (get_decimal(limit_h) >= 60)
-				limit_h -= 0.40;
+				print_hours_worked(RED, how[i + j], 0);
 			total_h_week += how[i + j];
 			if (get_decimal(total_h_week) >= 60)
 				total_h_week += 0.40;
 		}
-		print_hours_worked(NULL, NULL, 0, 0, total_h_week);
-		printf("\n|            |            |            |            |            |            |            |       |\n");
+		print_hours_worked(NULL, 0, total_h_week);
+		printf("\n|               |               |               |               |               |               |               |       |\n");
 		i += 7;
 	}
-	printf("────────────────────────────────────────────────────────────────────────────────────────────────────\n");
-	limit_d += rest_days;
+	printf("─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n");
 	blank_print(start_day, days, i, cur_days, how, &limit_h);
 	time_left(limit_d, limit_h);
 }
 
 #include <time.h>
-
-int	get_day_diff(void)
-{
-	struct tm given_date = {0};
-    time_t now, given_time;
-    double seconds;
-    int days_diff;
-
-	//──────────────── Change day here ────────────────//
-    given_date.tm_mday = 16 - 1;       // Day
-    given_date.tm_mon  = 06 - 1;       // month
-    given_date.tm_year = 2025 - 1900;  // Year
-
-    // Convertir struct tm en time_t
-    given_time = mktime(&given_date);
-
-    // Obtenir l'heure actuelle
-    time(&now);
-
-    // Calculer la différence en secondes
-    seconds = difftime(now, given_time);
-
-    // Convertir en jours
-    days_diff = (int)(seconds / (60 * 60 * 24));
-	return (days_diff);
-}
 
 int	day(char *s)
 {
@@ -250,22 +245,64 @@ int	day(char *s)
 	return (-1);
 }
 
-time_t get_date_secs(void)
+/**
+ * @brief
+ * The function convert a date into a time_t
+ * 
+ * it also validates the date:
+ * 
+ * - Checks that day, month, and year are in valid ranges
+ * 
+ * - Handles February correctly with leap years
+ * 
+ * - Supports leap years according to the Gregorian calendar rules
+ * 
+ * If the date is invalid, the function prints an error message and returns (time_t)-1.
+ * 
+ * @param day	The day
+ * @param month	The month
+ * @param year	The year
+ * 
+ * @returns the date as a time_t
+ */
+time_t get_date_time_t(int day, int month, int year)
 {
-    struct tm start = {0};      // met tout à zéro
-    start.tm_mday = 16;         // jour
-    start.tm_mon  = 5;          // mois (0 = janvier, donc 5 = juin)
-    start.tm_year = 2025 - 1900;// année (compte depuis 1900)
-    start.tm_hour = 12;         // sécurité contre changement d’heure
+	int mdays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    return mktime(&start);// conversion en nombre (secondes depuis 1970)
+	if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
+		mdays[1] = 29;
+	if (month < 1 || month > 12 || day < 1 || day > mdays[month-1] || year < 1900)
+		return printf(RED "Invalid date!\n" RESET), (time_t)-1;
+
+	struct tm start = {
+		.tm_mday = day,
+		.tm_mon = month - 1,	// (0 = january)
+		.tm_year = year - 1900,	// year (count since 1900)
+		.tm_hour = 12,			// security against hour change
+		.tm_isdst = -1			// let mktime determine whether Daylight Saving Time (DST) applies
+	};
+
+    return mktime(&start);// convert to time_t in seconds since 1970
 }
 
+/**
+ * @brief
+ * Calculate the time for french Chomage left based on the requirements before the new law that come out in june 2025.
+ * 
+ * it gives you the current days and hours of work you need to fullfill to get your access to chomage.
+ * 
+ * @note You only need to meet one requirement to get access to it.
+ * @note The hours of work tab should always end with a line of 0 to stop the loop.
+ * @note If you need to add multiple starting dates, add one below and in the tab you send to the function.
+ */
 int	main(void)
 {
-	int cur_days = get_day_diff(), limit_days = 65 - cur_days;
-	time_t cur_date = get_date_secs();
-	double hours_of_work[98] = {
+	int limit_days = 65;
+	double limit_hours = 455;
+	time_t start_date_lidl = get_date_time_t(16, 05, 2025);
+	time_t start_date_KFC = get_date_time_t(16, 02, 2026);
+	contract_nb = 2;
+	double hours_of_work[] = {
 		(17 - 14 + 13 - 9), (17 - 14 + 13 - 9), (19.3 - 14), (19.3 - 14), (19 - 14), 0, 0,
 		(20.35 - 14.31), 0, 0, (20.46 - 12.47), (20.42 - 14.3), (20.49 - 14.31), (20.3 - 14.3),
 		(22 - 16), (22.11 - 13.51), (22.21 - 12.04), (24 - 16), 0, (22.19 - 16), 0,
@@ -278,10 +315,12 @@ int	main(void)
 		(23.27 - 17), (23.06 - 17), (22.53 - 16.59), (23.14 - 17.02), 0, (23.14 - 17.02), 0,
 		(22.17 - 16), (22.1 - 16), (22.24 - 16.02), (22.21 - 16.01), (22.22 - 16.01), 0, 0,
 		0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0,
+		((24 - 21.30) + (21 - 17)), (23.45 - 18), 0, 0, (21 - 18), ((21 - 18) + (14 - 12)), ((23.45 - 19) + (15 - 12)),
+		(23.45 - 18), (23.45 - 19), 0, 0, (23.45 - 19), ((23.45 - 19) + (15 - 12)), ((23.45 - 19) + (14.30 - 12)),
 		0, 0, 0, 0, 0, 0, 0
-	}, limit_hours = 455;
+	};
 
-	how_much_time_left(hours_of_work, day("lundi"), cur_days, limit_days, limit_hours, cur_date);
+	time_t contracts[] = {start_date_lidl, start_date_KFC};
+	how_much_time_left(hours_of_work, day("lundi"), limit_days, limit_hours, contracts);
 	return (0);
 }
