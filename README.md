@@ -35,7 +35,7 @@ I do crazy things like:
 If you’re brave enough, you can try to compile it:
 
 ```bash
-git clone git@github.com:Sung-Jinw00/Creativity-box.git Madness
+git clone git@github.com:Louis-Cagnion/Creativity-box.git Madness
 cd Madness
 ```
 
