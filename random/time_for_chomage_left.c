@@ -55,7 +55,7 @@ size_t contract_nb;
 int	get_decimal(double time)
 {
 	int decimal = (int)((time - (int)time) * 100);
-	if (decimal % 10 == 9 || decimal == 44)
+	if (decimal % 10 == 9 || decimal == 44 || decimal == 14)
 		decimal++;
 	return (decimal);
 }
@@ -363,12 +363,12 @@ int	main(void)
 		(23.27 - 17), (23.06 - 17), (22.53 - 16.59), (23.14 - 17.02), 0, (23.14 - 17.02), 0,
 		(22.17 - 16), (22.1 - 16), (22.24 - 16.02), (22.21 - 16.01), (22.22 - 16.01), 0, 0,
 		0, 0, 0, 0, 0, 0, 0,
-		((24 - 21.30) + (21 - 17)), (23.45 - 18), 0, 0, (21 - 18), ((21 - 18) + (14 - 12)), ((23.45 - 19) + (15 - 12)),
+		((24 - 21.30) + (21 - 17)), (23.45 - 18), 0, 0, (24.15 - 18), ((23.45 - 18) + (14 - 12)), ((23.45 - 19) + (15 - 12)),
 		(23.45 - 18), (23.45 - 19), 0, 0, (23.45 - 19), ((23.45 - 19) + (15 - 12)), ((23.45 - 19) + (14.30 - 12)),
 		0, 0, 0, 0, 0, 0, 0
 	};
 
 	time_t contracts[] = {start_date_lidl, start_date_KFC};
-	how_much_time_left(hours_of_work, day("mardi"), limit_days, limit_hours, contracts);
+	how_much_time_left(hours_of_work, day("lundi"), limit_days, limit_hours, contracts);
 	return (0);
 }
