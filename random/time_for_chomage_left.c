@@ -198,12 +198,12 @@ void	how_much_time_left(double *how, int start_day, int limit_d, double limit_h,
 	bool	first_week = true;
 	int 	rest_days = 0,
 			cur_j = -1,
-			cur_days = limit_d + start_day,
+			cur_days = limit_d + start_day + 3,
 			i = start_day;
 	char	date_str[9] = {0},
 			*days[8] = {"Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim.", "Total"};
 
-	while (i < cur_days)
+	while (contract < contract_nb)
 	{
 		if (!how[i] && !how[i + 1] && !how[i + 2])//if there's 3 days off, it's the end of a contract
 		{
@@ -262,6 +262,7 @@ void	how_much_time_left(double *how, int start_day, int limit_d, double limit_h,
 			if (get_decimal(total_h_week) >= 60)//avoid overlap of base 60
 				total_h_week += 0.40;
 		}
+		cur_j = -1;
 		print_hours_worked(NULL, 0, total_h_week);//print total hours worked this week
 		printf("\n|               |               |               |               |               |               |               |       |\n");
 		i += 7;
@@ -363,9 +364,10 @@ int	main(void)
 		(23.27 - 17), (23.06 - 17), (22.53 - 16.59), (23.14 - 17.02), 0, (23.14 - 17.02), 0,
 		(22.17 - 16), (22.1 - 16), (22.24 - 16.02), (22.21 - 16.01), (22.22 - 16.01), 0, 0,
 		0, 0, 0, 0, 0, 0, 0,
-		((24 - 21.30) + (21 - 17)), (23.45 - 18), 0, 0, (24.15 - 18), ((23.45 - 18) + (14 - 12)), ((23.45 - 19) + (15 - 12)),
-		(23.45 - 18), (23.45 - 19), 0, 0, (23.45 - 19), ((23.45 - 19) + (15 - 12)), ((23.45 - 19) + (14.30 - 12)),
-		0, 0, 0, 0, 0, 0, 0
+		((24 - 21.30) + (21 - 17)), (23.45 - 18), 0, 0, (24.27 - 18), ((25.05 - 18) + (14.15 - 12)), ((23.55 - 19) + (15 - 12)),
+		(23.45 - 18), (24.30 - 19), 0, 0, (23.45 - 19), ((23.45 - 19) + (15 - 12)), ((23.45 - 19) + (14.30 - 12)),
+		(23.45 - 19), (23.45 - 19), 0, 0, (21 - 16), (23.45 - 19), (23.45 - 18),
+		0, 0, 0, 0, 0, 0, 0,
 	};
 
 	time_t contracts[] = {start_date_lidl, start_date_KFC};
